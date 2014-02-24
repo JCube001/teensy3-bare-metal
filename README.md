@@ -23,7 +23,7 @@ available on your PATH.
 
 In blink.c we start with the following.
 
-```
+```C
 volatile uint32_t systick_millis_count = 0;
 
 
@@ -39,7 +39,7 @@ content of systick_millis_count is modified by the systick interrupt of the
 ARM processor. The function which handles this interrupt is located in
 mk20dx128.c.
 
-```
+```C
 extern unsigned long _estack;
 
 
@@ -61,7 +61,7 @@ That's great, we now know where the function is declared which executes upon a
 systick interrupt, but how does the ARM processor know where to find this
 function? That's accomplished by using a vector table.
 
-```
+```C
 __attribute__ ((section(".vectors"), used))
 void (* const _isr_functions[])(void) = {
     (void *)&_estack,      /**< 0 ARM: Initial stack pointer */
@@ -105,7 +105,7 @@ from Teensyduino.
 
 Finally there are the main and delay functions.
 
-```
+```C
 void delay(uint32_t msec)
 {
     uint32_t start = millis();
@@ -156,7 +156,7 @@ microcontroller. Looking at the PORT section of the documentation, each port
 and pin combo has a control register associated with it. It also says that a
 pin can be put into GPIO mode by setting just bit 8 to 1.
 
-```
+```C
 PORTC_PCR5 = (uint32_t)(1 << 8);
 ```
 
@@ -166,7 +166,7 @@ documentation we see there is a register to set just for this purpose and that
 a value of 0 on a bit means that pin is set for input while a value of 1 means
 output. We want to set port C, pin 5 to output so we get the following.
 
-```
+```C
 GPIOC_PDDR |= (uint32_t)(1 << 5);
 ```
 
@@ -174,7 +174,7 @@ Next we need to explicitly allow the bits to be set in the data output register
 for our port and pin. This is accomplished by setting the corresponding bit
 to 1 in the set output register.
 
-```
+```C
 GPIOC_PSOR |= (uint32_t)(1 << 5);
 ```
 
@@ -185,7 +185,7 @@ pin on the pin data output register (PDOR) but since the pin toggle output
 register (PTOR) is a builtin feature of our microcontroller, it is wiser to
 make good use of it.
 
-```
+```C
 GPIOC_PTOR |= (uint32_t)(1 << 5);
 ```
 
