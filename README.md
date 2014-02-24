@@ -34,8 +34,8 @@ static inline uint32_t millis()
 }
 ```
 
-Notice that systick_millis_count is declared volatile. This is because the
-content of systick_millis_count is modified by the systick interrupt of the
+Notice that systick\_millis\_count is declared volatile. This is because the
+content of systick\_millis\_count is modified by the systick interrupt of the
 ARM processor. The function which handles this interrupt is located in
 mk20dx128.c.
 
@@ -91,14 +91,14 @@ because each one points to a function. The functions are always of type void
 and take no arguments.
 
 A special thing to note about the table above are the values of the first and
-second elements of the array. The first element; the address of _estack sets
+second elements of the array. The first element; the address of \_estack sets
 the initial value of the stack pointer (SP register) on the ARM processor.
-The second element; reset_isr sets the initial value of the program counter
+The second element; reset\_isr sets the initial value of the program counter
 (PC register) on the ARM processor. In our case, the stack pointer is the end
 of our stack because the stack grows from end to start and the program counter
 is set to the location of our reset handler function.
 
-Don't worry about the content of the reset_isr function for the time being.
+Don't worry about the content of the reset\_isr function for the time being.
 You would need to have read the user guide for your microcontroller before you
 would be able to go hacking at this function. I got most of the code for mine
 from Teensyduino.
@@ -133,7 +133,7 @@ int main(void)
 }
 ```
 
-Main is always the last thing called in the reset handler (reset_isr in our
+Main is always the last thing called in the reset handler (reset\_isr in our
 example). This is where you put your highest level application logic. A common
 practice which Arduino users will be familiar with is subdividing main into
 a setup code section and a forever loop section. Main should never be able to
@@ -147,7 +147,7 @@ The way the LED is controlled from main is by manipulating the values of the
 registers which control the signal on the same pin the LED connected to. Note
 that the following information can be found in the
 [Kinetis K20 reference manual](http://cache.freescale.com/files/32bit/doc/ref_manual/K20P64M50SF0RM.pdf?fpsp=1&WT_TYPE=Reference%20Manuals&WT_VENDOR=FREESCALE&WT_FILE_FORMAT=pdf&WT_ASSET=Documentation)
-and that the register macros (i.e. PORTC_PCR5) come from the Teensy 3.0 header
+and that the register macros (i.e. PORTC\_PCR5) come from the Teensy 3.0 header
 file mk20dx128.h.
 
 The first step is to locate where pin 13 on the Teensy board is connected on
